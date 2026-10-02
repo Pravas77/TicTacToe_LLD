@@ -14,4 +14,9 @@ public class Player {
     public Piece getPiece() {
         return piece;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" + "name='" + name + '\'' + ", piece=" + piece + '}';
+    }
 }

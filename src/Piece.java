@@ -1,3 +1,3 @@
 public enum Piece {
-    X,O,E
+    X, O, E
 }

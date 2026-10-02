@@ -4,55 +4,42 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class Game {
-    private int size;
-    private Deque<Player> players;
     private Board board;
+    private Deque<Player> players;
 
-    public Game(int size, Deque<Player> players) {
-        this.size = size;
+    public Game(Board board, Deque<Player> players) {
+        this.board = board;
         this.players = players;
-        board = new Board(size);
     }
 
+    public Player startGame() {
 
-     public Player start(){
+        while (true) {
 
+            if (board.isFull()) return null;
+            board.printBoard();
 
-      while (true){
+            System.out.println("Its " + players.peekFirst() + " turn");
+            Scanner sc = new Scanner(System.in);
 
-          if(board.isFull()) return null;
-          board.printBoard();
+            System.out.println("Enter row no : ");
+            int row = sc.nextInt();
+            System.out.println("Enter col no : ");
+            int col = sc.nextInt();
 
-          Scanner sc = new Scanner(System.in);
-          String input = sc.nextLine();
-          String arr[] = input.split(",");
-          int row = Integer.valueOf(arr[0]);
-          int col = Integer.valueOf(arr[1]);
+            Player player = players.pollFirst();
+            Piece piece = player.getPiece();
 
-          Player player = players.peekFirst();
-          Piece piece = player.getPiece();
+            boolean status = board.put(row, col, piece);
+            if (!status) {
+                System.out.println("Please enter the valid input");
+                players.offerFirst(player);
+                continue;
+            }
 
-
-          boolean status = board.put(row,col,piece);
-          if(!status) {
-              System.out.println("Please enter the valid input");
-              continue;
-          }
-
-          players.pollFirst();
-          players.offerLast(player);
-
-
-          if(board.isWinner(row,col,piece)) return player;
-
-
-      }
-
-
-     }
-
-
-
-
+            players.offerLast(player);
+            if (board.isWinner(row, col, piece)) return player;
+        }
+    }
 
 }

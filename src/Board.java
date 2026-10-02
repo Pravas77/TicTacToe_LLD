@@ -2,12 +2,13 @@ import java.util.List;
 
 public class Board {
     private int size;
-    private int filled = 0;
+    private int filled;
     private Piece gameBoard[][];
 
     public Board(int size) {
         this.size = size;
-        gameBoard = new Piece[size][size];
+        this.filled = 0;
+        this.gameBoard = new Piece[size][size];
     }
 
     public int getSize() {
@@ -27,38 +28,38 @@ public class Board {
     }
 
 
-    public boolean put(int row,int col,Piece piece){
-        if(row>=size || col>=size || gameBoard[row][col] != null) return false;
+    public boolean put(int row, int col, Piece piece) {
+        if (row >= size || col >= size || gameBoard[row][col] != null) return false;
         gameBoard[row][col] = piece;
         filled++;
         return true;
     }
 
-    public boolean isFull(){
+    public boolean isFull() {
         return filled == size * size;
     }
 
-    public boolean isWinner(int row,int col,Piece piece){
+    public boolean isWinner(int row, int col, Piece piece) {
 
         boolean rowMatch = true;
         boolean colMatch = true;
         boolean diagonalMatch = true;
         boolean antiDiagonalMatch = true;
 
-        for(int i=0;i<size;i++) if(gameBoard[i][col] != piece) rowMatch = false;
-        for(int j=0;j<size;j++) if(gameBoard[row][j] != piece) colMatch = false;
-        for(int i=0;i<size;i++) if(gameBoard[i][i] != piece) diagonalMatch = false;
-        for(int i=0;i<size;i++) if(gameBoard[i][size-1-i] != piece) antiDiagonalMatch = false;
+        for (int i = 0; i < size; i++) if (gameBoard[i][col] != piece) rowMatch = false;
+        for (int j = 0; j < size; j++) if (gameBoard[row][j] != piece) colMatch = false;
+        for (int i = 0; i < size; i++) if (gameBoard[i][i] != piece) diagonalMatch = false;
+        for (int i = 0; i < size; i++) if (gameBoard[i][size - 1 - i] != piece) antiDiagonalMatch = false;
 
         return rowMatch || colMatch || diagonalMatch || antiDiagonalMatch;
     }
 
-    public  void printBoard(){
+    public void printBoard() {
 
-        for(int i=0;i<size;i++){
-            for(int j=0;j<size;j++){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
 
-                if(gameBoard[i][j] == null) System.out.print(". ");
+                if (gameBoard[i][j] == null) System.out.print(". ");
                 else System.out.print(gameBoard[i][j] + " ");
 
             }
@@ -66,12 +67,6 @@ public class Board {
             System.out.println();
         }
     }
-
-
-
-
-
-
 
 
 }
